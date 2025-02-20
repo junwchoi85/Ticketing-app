@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.jc</groupId>
+	<artifactId>bom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>bom</name>
+	<description>BOM project</description>
+	<url>http://www.ticketingapp.com</url>
+	<licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+	<developers>
+		<developer>
+			<name>JC</name>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/junwchoi85/Ticketing-app.git</url>
+	</scm>
+	<properties>
+		<common-lib.version>1.0.0</common-lib.version>
+		<spring-boot.version>3.4.2</spring-boot.version>
+		<java.version>23</java.version>
+		 <spring-cloud.version>2024.0.0</spring-cloud.version>
+	</properties>
+	<modules>
+        <module>common</module>
+    </modules>
+	<!-- dependencies section is used to declare the dependencies that your project directly requireds.-->
+	<!-- These are included in the classpath of your project.  -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<!-- dependencyManagement section is used to specify the versions of dependencies that are used. -->
+	<!-- It does not include the dependencies in the classpath directly. -->
+	<!-- Instead, it defines the versions and scopes of dependencies that can be inherited by submodules. -->
+	<!-- Submodules can then reference these dependencies without specifying the version. -->
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			<dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			
+		</dependencies>
+	</dependencyManagement>	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
