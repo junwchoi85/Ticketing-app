@@ -24,7 +24,7 @@
 		<url>https://github.com/junwchoi85/Ticketing-app.git</url>
 	</scm>
 	<properties>
-		<common-lib.version>1.0.0</common-lib.version>
+		<common-lib.version>0.0.1</common-lib.version>
 		<spring-boot.version>3.4.2</spring-boot.version>
 		<java.version>23</java.version>
 		 <spring-cloud.version>2024.0.0</spring-cloud.version>
@@ -35,15 +35,6 @@
 	<!-- dependencies section is used to declare the dependencies that your project directly requireds.-->
 	<!-- These are included in the classpath of your project.  -->
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
