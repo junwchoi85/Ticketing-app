@@ -1,3 +1,10 @@
 backend/.vscode/launch.json
 backend/bom/common/pom.xml
-backend/.DS_Store
+**/.DS_Store/*
+backend/.idea/.gitignore
+backend/.idea/backend.iml
+backend/.idea/compiler.xml
+backend/.idea/jarRepositories.xml
+backend/.idea/misc.xml
+backend/.idea/modules.xml
+backend/.idea/vcs.xml
