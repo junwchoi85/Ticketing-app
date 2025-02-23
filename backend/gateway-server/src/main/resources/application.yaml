@@ -7,17 +7,17 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: false
-          lowerCaseServiceId: true
+          enabled: true             # Enable service discovery
+          lowerCaseServiceId: true  # Make the service id case insensitive
       httpclient:
-        connect-timeout: 1000
-        response-timeout: 10s
+        connect-timeout: 1000       # Connection timeout in milliseconds
+        response-timeout: 10s       # Response timeout in seconds
 eureka:
   instance:
-    preferIpAddress: true
+    preferIpAddress: true           # Use IP address instead of hostname
   client:
-    registerWithEureka: true
-    fetchRegistry: true
+    registerWithEureka: true        # Register with Eureka server
+    fetchRegistry: true             # Fetch registry from Eureka server
     serviceUrl:
       defaultZone: "http://localhost:8761/eureka/"
 management:
