@@ -1,4 +1,4 @@
-package com.jc.gateway_server;
+package com.jc.gatewayserver;
 
 import java.time.LocalDateTime;
 
@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -16,12 +17,13 @@ public class GatewayServerApplication {
 		SpringApplication.run(GatewayServerApplication.class, args);
 	}
 
+	@Bean
 	public RouteLocator routeConfig(RouteLocatorBuilder builder) {
 		return builder.routes()
 				.route(r -> r
 						.path("/ticket/users/**")
-						.filters(f -> f.rewritePath("/ticket/users/(?<segment>.*)", "/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+						.filters(f -> f.rewritePath("/ticket/users/(?<segment>.*)", "/${segment}") 	// Rewrite the path
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()) 		// Add a response header
 								// .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
 								// 		.setFallbackUri("forward:/contactSupport"))
 								)

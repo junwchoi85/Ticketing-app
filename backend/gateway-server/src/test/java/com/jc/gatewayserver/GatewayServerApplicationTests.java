@@ -1,4 +1,4 @@
-package com.jc.gateway_server;
+package com.jc.gatewayserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
