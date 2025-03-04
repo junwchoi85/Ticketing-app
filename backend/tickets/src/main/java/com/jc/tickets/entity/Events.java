@@ -1,10 +1,13 @@
 package com.jc.tickets.entity;
 
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +27,16 @@ public class Events {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "eve_uuid", unique = true, nullable = false)
+    private String eveUuid;
     private String title;
     private String description;
     private String venue;
+
+    @PrePersist
+    protected void onCreate() {
+        if (eveUuid == null) {
+            eveUuid = UUID.randomUUID().toString();
+        }
+    }
 }

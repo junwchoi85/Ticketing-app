@@ -28,6 +28,22 @@ public class GatewayServerApplication {
 								// 		.setFallbackUri("forward:/contactSupport"))
 								)
 						.uri("lb://USERS"))
+				.route(r -> r
+						.path("/ticket/tickets/**")
+						.filters(f -> f.rewritePath("/ticket/tickets/(?<segment>.*)", "/${segment}") 	// Rewrite the path
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()) 		// Add a response header
+								// .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
+								// 		.setFallbackUri("forward:/contactSupport"))
+								)
+						.uri("lb://TICKETS"))
+				.route(r -> r
+						.path("/ticket/aggregator/**")
+						.filters(f -> f.rewritePath("/ticket/aggregator/(?<segment>.*)", "/${segment}") 	// Rewrite the path
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()) 		// Add a response header
+								// .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
+								// 		.setFallbackUri("forward:/contactSupport"))
+								)
+						.uri("lb://AGGREGATOR"))
 				.build();
 	}
 }

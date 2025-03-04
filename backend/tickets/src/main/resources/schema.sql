@@ -1,19 +1,22 @@
 -- Table: events
 CREATE TABLE events (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    eve_uuid VARCHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     venue VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(255) NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by VARCHAR(255) DEFAULT NULL
+    updated_by VARCHAR(255) DEFAULT NULL,
+    UNIQUE (eve_uuid) -- Added unique constraint
 );
 
 -- Table: seats
 CREATE TABLE seats (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    event_id BIGINT NOT NULL,
+    sea_uuid VARCHAR(36) NOT NULL,
+    eve_uuid VARCHAR(36) NOT NULL,
     seat_number VARCHAR(10) NOT NULL,
     row_number VARCHAR(10) NOT NULL,
     status VARCHAR(10) NOT NULL DEFAULT 'AVAILABLE',  -- Changed ENUM to VARCHAR
@@ -23,21 +26,24 @@ CREATE TABLE seats (
     created_by VARCHAR(255) NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by VARCHAR(255) DEFAULT NULL,
-    FOREIGN KEY (event_id) REFERENCES events(id)
+    UNIQUE (sea_uuid), -- Added unique constraint
+    FOREIGN KEY (eve_uuid) REFERENCES events(eve_uuid)
 );
 
 -- Table: tickets
 CREATE TABLE tickets (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    event_id BIGINT NOT NULL,
-    seat_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
+    tic_uuid VARCHAR(36) NOT NULL,
+    eve_uuid VARCHAR(36) NOT NULL,
+    sea_uuid VARCHAR(36) NOT NULL,
+    cus_uuid VARCHAR(36) NOT NULL, -- Customer UUID from the customers table
     purchase_date TIMESTAMP NOT NULL,
     payment_status VARCHAR(10) DEFAULT 'PENDING',  -- Changed ENUM to VARCHAR
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(255) NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by VARCHAR(255) DEFAULT NULL,
-    FOREIGN KEY (event_id) REFERENCES events(id),
-    FOREIGN KEY (seat_id) REFERENCES seats(id)
+    UNIQUE (tic_uuid), -- Added unique constraint
+    FOREIGN KEY (eve_uuid) REFERENCES events(eve_uuid),
+    FOREIGN KEY (sea_uuid) REFERENCES seats(sea_uuid)
 );

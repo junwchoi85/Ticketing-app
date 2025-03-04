@@ -8,6 +8,7 @@ import com.jc.tickets.entity.Events;
 
 public class EventsMapper {
     public static EventsDto mapToDto(Events events, EventsDto eventsDto) {
+        eventsDto.setEveUuid(events.getEveUuid());
         eventsDto.setTitle(events.getTitle());
         eventsDto.setDescription(events.getDescription());
         eventsDto.setVenue(events.getVenue());
@@ -15,6 +16,7 @@ public class EventsMapper {
     }
 
     public static Events mapToEntity(EventsDto eventsDto, Events events) {
+        events.setEveUuid(eventsDto.getEveUuid());
         events.setTitle(eventsDto.getTitle());
         events.setDescription(eventsDto.getDescription());
         events.setVenue(eventsDto.getVenue());
@@ -23,6 +25,7 @@ public class EventsMapper {
 
     public static EventsDto convertToDto(Events events) {
         EventsDto eventsDto = new EventsDto();
+        eventsDto.setEveUuid(events.getEveUuid());
         eventsDto.setTitle(events.getTitle());
         eventsDto.setDescription(events.getDescription());
         eventsDto.setVenue(events.getVenue());
@@ -31,6 +34,7 @@ public class EventsMapper {
 
     public static Events convertToEntity(EventsDto eventsDto) {
         Events events = new Events();
+        events.setEveUuid(eventsDto.getEveUuid());
         events.setTitle(eventsDto.getTitle());
         events.setDescription(eventsDto.getDescription());
         events.setVenue(eventsDto.getVenue());

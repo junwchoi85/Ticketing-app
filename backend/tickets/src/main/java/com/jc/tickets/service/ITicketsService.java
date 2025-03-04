@@ -7,12 +7,12 @@ import com.jc.tickets.dto.SeatsDto;
 import com.jc.tickets.dto.TicketsDto;
 
 public interface ITicketsService {
-    public TicketsDto createTicket(TicketsDto ticketsDto);
-    public TicketsDto getTicketByUserId(Long userId);
+    public TicketsDto bookTicket(TicketsDto ticketsDto);
+    public TicketsDto getTicketByUser(String cusUuid);
     public boolean updateTicket(TicketsDto ticketsDto);
     public boolean deleteTicket(TicketsDto ticketsDto);
 
-    public List<SeatsDto> getSeats(Long eventId);
+    public List<SeatsDto> getSeats(String eveUuid);
     
     public EventsDto getEventByTitle(String title);
     public List<EventsDto> getAllEvents();

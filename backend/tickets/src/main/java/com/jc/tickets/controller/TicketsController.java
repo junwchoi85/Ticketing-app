@@ -29,7 +29,7 @@ public class TicketsController {
 
     @PostMapping("/book-ticket")
     public ResponseEntity<ResponseDto<TicketsDto>> bookTicket(@Valid @RequestBody TicketsDto entity) {
-        TicketsDto savedEntity = ticketsService.createTicket(entity);
+        TicketsDto savedEntity = ticketsService.bookTicket(entity);
         if (savedEntity == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.FAILED_TO_BOOK_TICKET, null));
@@ -40,8 +40,8 @@ public class TicketsController {
     }
 
     @GetMapping("/get-ticket")
-    public ResponseEntity<ResponseDto<TicketsDto>> getTicket(@RequestParam Long userId) {
-        TicketsDto entity = ticketsService.getTicketByUserId(userId);
+    public ResponseEntity<ResponseDto<TicketsDto>> getTicket(@RequestParam("uuid") String uuid) {
+        TicketsDto entity = ticketsService.getTicketByUser(uuid);
         if (entity == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.FAILED_TO_BOOK_TICKET, null));
@@ -49,5 +49,11 @@ public class TicketsController {
         return ResponseEntity.status(200)
                 .body(new ResponseDto<>(TicketsConstants.STATUS_200, TicketsConstants.TICKET_BOOKED_SUCCESSFULLY, entity));
     }
+
+    @GetMapping("/ping")
+    public String ping() {
+        return "pong";
+    }
+    
 
 }

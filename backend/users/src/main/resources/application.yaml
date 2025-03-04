@@ -4,10 +4,17 @@ spring:
   application:
     name: users
   datasource:
-    url: jdbc:h2:file:~/users;AUTO_SERVER=true
+    # url: jdbc:h2:file:~/users;AUTO_SERVER=true
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password: ''
+  sql:
+    init:
+      schema-locations:
+      - classpath:schema.sql
+      data-locations:
+      - classpath:data.sql
   h2:
     console:
       enabled: true

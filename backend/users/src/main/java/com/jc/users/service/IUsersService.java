@@ -2,13 +2,14 @@ package com.jc.users.service;
 
 import java.util.List;
 
-import com.jc.users.dto.UsersDto;
+import com.jc.users.dto.CustomerDto;
 
 public interface IUsersService {
-    public UsersDto createUser(UsersDto usersDto);
-    public UsersDto getUserById(Long id);
-    public UsersDto getUserByEmail(String email);
-    public boolean updateUser(UsersDto usersDto);
-    public boolean deleteUser(UsersDto usersDto);
-    public List<UsersDto> getAllUsers();
+    public CustomerDto signUpCustomer(CustomerDto customerDto);
+    public CustomerDto fetchCustomerById(Long id);
+    public CustomerDto fetchCustomerByUuid(String uuid);
+    public CustomerDto fetchCustomerByEmail(String email);
+    public boolean editCustomerDetails(CustomerDto customerDto);
+    public boolean deactivateCustomer(CustomerDto customerDto);
+    public List<CustomerDto> listAllCustomers();
 }

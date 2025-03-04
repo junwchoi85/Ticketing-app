@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.jc.common.exception.ResourceNotFoundException;
+import com.jc.tickets.constants.TicketsConstants;
 import com.jc.tickets.dto.EventsDto;
 import com.jc.tickets.dto.SeatsDto;
 import com.jc.tickets.dto.TicketsDto;
@@ -29,24 +30,25 @@ public class TicketsServiceImpl implements ITicketsService {
     private final EventsRepository eventsRepository;
 
     @Override
-    public TicketsDto createTicket(TicketsDto ticketsDto) {
+    public TicketsDto bookTicket(TicketsDto ticketsDto) {
         Tickets tickets = TicketsMapper.convertToEntity(ticketsDto);
         Tickets savedTickets = ticketsRepository.save(tickets);
         return TicketsMapper.convertToDto(savedTickets);
     }
 
     @Override
-    public TicketsDto getTicketByUserId(Long userId) {
-        Tickets tickets = ticketsRepository.findByUserId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "userId", userId.toString()));
+    public TicketsDto getTicketByUser(String cusUuid) {
+        Tickets tickets = ticketsRepository.findByCusUuid(cusUuid)
+                .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
+                        TicketsConstants.FIELD_CUS_UUID, cusUuid));
         return TicketsMapper.convertToDto(tickets);
     }
 
     @Override
     public boolean updateTicket(TicketsDto ticketsDto) {
-        Tickets tickets = ticketsRepository.findByUserId(ticketsDto.getUserId())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Ticket", "userId", ticketsDto.getUserId().toString()));
+        Tickets tickets = ticketsRepository.findByTicUuid(ticketsDto.getTicUuid())
+                .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
+                        TicketsConstants.FIELD_TIC_UUID, ticketsDto.getTicUuid()));
         Tickets updatedTickets = TicketsMapper.mapToEntity(ticketsDto, tickets);
         ticketsRepository.save(updatedTickets);
         return true;
@@ -54,17 +56,17 @@ public class TicketsServiceImpl implements ITicketsService {
 
     @Override
     public boolean deleteTicket(TicketsDto ticketsDto) {
-        Tickets tickets = ticketsRepository.findByUserId(ticketsDto.getUserId())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Ticket", "userId", ticketsDto.getUserId().toString()));
+        // TODO : Implement soft delete
+        Tickets tickets = ticketsRepository.findByTicUuid(ticketsDto.getTicUuid())
+                .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
+                        TicketsConstants.FIELD_TIC_UUID, ticketsDto.getTicUuid()));
         ticketsRepository.delete(tickets);
         return true;
     }
 
     @Override
-    public List<SeatsDto> getSeats(Long eventId) {
-        List<Seats> seats = seatsRepository.findByEventId(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seats", "eventId", eventId.toString()));
+    public List<SeatsDto> getSeats(String eveUuid) {
+        List<Seats> seats = seatsRepository.findByEveUuid(eveUuid);
         return SeatsMapper.convertToSeatsDtoList(seats);
     }
 

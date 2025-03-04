@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.jc.common.exception.ConflictException;
 import com.jc.common.exception.ResourceNotFoundException;
-import com.jc.users.dto.UsersDto;
-import com.jc.users.entity.Users;
-import com.jc.users.mapper.UsersMapper;
-import com.jc.users.repository.UsersRepository;
+import com.jc.users.constants.UsersConstants;
+import com.jc.users.dto.CustomerDto;
+import com.jc.users.entity.Customer;
+import com.jc.users.mapper.CustomerMapper;
+import com.jc.users.repository.CustomerRepository;
 import com.jc.users.service.IUsersService;
 
 import lombok.AllArgsConstructor;
@@ -19,54 +20,66 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UsersServiceImpl implements IUsersService {
-    private final UsersRepository usersRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
-    public UsersDto createUser(UsersDto usersDto) {
-        Users users = UsersMapper.convertToEntity(usersDto);
-        Optional<Users> user = usersRepository.findByEmail(users.getEmail());
+    public CustomerDto signUpCustomer(CustomerDto customerDto) {
+        Customer customerEntities = CustomerMapper.convertToEntity(customerDto);
+        Optional<Customer> user = customerRepository.findByEmail(customerEntities.getEmail());
         if (user.isPresent()) {
-            throw new ConflictException("User", "email", users.getEmail());
+            throw new ConflictException(UsersConstants.RESOURCE_CUSTOMER, UsersConstants.RESOURCE_EMAIL,
+                    customerEntities.getEmail());
         }
-        Users savedUsers = usersRepository.save(users);
-        return UsersMapper.convertToDto(savedUsers);
+        Customer savedUsers = customerRepository.save(customerEntities);
+        return CustomerMapper.convertToDto(savedUsers);
     }
 
     @Override
-    public UsersDto getUserById(Long id) {
-        Users users = usersRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id.toString()));
-        return UsersMapper.convertToDto(users);
+    public CustomerDto fetchCustomerById(Long id) {
+        Customer users = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(UsersConstants.RESOURCE_CUSTOMER,
+                        UsersConstants.RESOURCE_ID, String.valueOf(id)));
+        return CustomerMapper.convertToDto(users);
     }
 
     @Override
-    public UsersDto getUserByEmail(String email) {
-        Users users = usersRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
-        return UsersMapper.convertToDto(users);
+    public CustomerDto fetchCustomerByUuid(String uuid) {
+        Customer users = customerRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(UsersConstants.RESOURCE_CUSTOMER,
+                        UsersConstants.RESOURCE_UUID, uuid));
+        return CustomerMapper.convertToDto(users);
     }
 
     @Override
-    public boolean updateUser(UsersDto usersDto) {
-        Users users = usersRepository.findByEmail(usersDto.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", usersDto.getEmail()));
-        Users updatedUsers = UsersMapper.mapToEntity(usersDto, users);
-        usersRepository.save(updatedUsers);
+    public CustomerDto fetchCustomerByEmail(String email) {
+        Customer users = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(UsersConstants.RESOURCE_CUSTOMER,
+                        UsersConstants.RESOURCE_EMAIL, email));
+        return CustomerMapper.convertToDto(users);
+    }
+
+    @Override
+    public boolean editCustomerDetails(CustomerDto usersDto) {
+        Customer users = customerRepository.findByUuid(usersDto.getUuid())
+                .orElseThrow(() -> new ResourceNotFoundException(UsersConstants.RESOURCE_CUSTOMER,
+                        UsersConstants.RESOURCE_UUID, usersDto.getUuid()));
+        Customer updatedUsers = CustomerMapper.mapToEntity(usersDto, users);
+        customerRepository.save(updatedUsers);
         return true;
     }
 
     @Override
-    public boolean deleteUser(UsersDto usersDto) {
-        Users users = usersRepository.findByEmail(usersDto.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", usersDto.getEmail()));
-        usersRepository.deleteById(users.getId());
+    public boolean deactivateCustomer(CustomerDto usersDto) {
+        Customer users = customerRepository.findByEmail(usersDto.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException(UsersConstants.RESOURCE_CUSTOMER,
+                        UsersConstants.RESOURCE_EMAIL, usersDto.getEmail()));
+        customerRepository.deleteById(users.getId());
         return true;
     }
 
     @Override
-    public List<UsersDto> getAllUsers() {
-        List<Users> users = usersRepository.findAll();
-        return users.stream().map(UsersMapper::convertToDto).collect(Collectors.toList());
+    public List<CustomerDto> listAllCustomers() {
+        List<Customer> users = customerRepository.findAll();
+        return users.stream().map(CustomerMapper::convertToDto).collect(Collectors.toList());
     }
-
 }

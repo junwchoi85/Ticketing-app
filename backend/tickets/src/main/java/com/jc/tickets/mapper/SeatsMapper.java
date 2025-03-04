@@ -8,6 +8,8 @@ import com.jc.tickets.entity.Seats;
 
 public class SeatsMapper {
     public static SeatsDto mapToDto(Seats seats, SeatsDto seatsDto) {
+        seatsDto.setSeaUuid(seats.getSeaUuid());
+        seatsDto.setEveUuid(seats.getEveUuid());
         seatsDto.setSeatNumber(seats.getSeatNumber());
         seatsDto.setRowNumber(seats.getRowNumber());
         seatsDto.setStatus(seats.getStatus());
@@ -17,6 +19,8 @@ public class SeatsMapper {
     }
 
     public static Seats mapToEntity(SeatsDto seatsDto, Seats seats) {
+        seats.setSeaUuid(seatsDto.getSeaUuid());
+        seats.setEveUuid(seatsDto.getEveUuid());
         seats.setSeatNumber(seatsDto.getSeatNumber());
         seats.setRowNumber(seatsDto.getRowNumber());
         seats.setStatus(seatsDto.getStatus());
@@ -27,6 +31,8 @@ public class SeatsMapper {
 
     public static SeatsDto convertToDto(Seats seats) {
         SeatsDto seatsDto = new SeatsDto();
+        seatsDto.setSeaUuid(seats.getSeaUuid());
+        seatsDto.setEveUuid(seats.getEveUuid());
         seatsDto.setSeatNumber(seats.getSeatNumber());
         seatsDto.setRowNumber(seats.getRowNumber());
         seatsDto.setStatus(seats.getStatus());
@@ -37,6 +43,8 @@ public class SeatsMapper {
 
     public static Seats convertToEntity(SeatsDto seatsDto) {
         Seats seats = new Seats();
+        seats.setSeaUuid(seatsDto.getSeaUuid());
+        seats.setEveUuid(seatsDto.getEveUuid());
         seats.setSeatNumber(seatsDto.getSeatNumber());
         seats.setRowNumber(seatsDto.getRowNumber());
         seats.setStatus(seatsDto.getStatus());
@@ -49,6 +57,8 @@ public class SeatsMapper {
         List<SeatsDto> seatsDtoList = new ArrayList<>();
         for (Seats seat : seats) {
             SeatsDto seatsDto = new SeatsDto();
+            seatsDto.setSeaUuid(seat.getSeaUuid());
+            seatsDto.setEveUuid(seat.getEveUuid());
             seatsDto.setSeatNumber(seat.getSeatNumber());
             seatsDto.setRowNumber(seat.getRowNumber());
             seatsDto.setStatus(seat.getStatus());

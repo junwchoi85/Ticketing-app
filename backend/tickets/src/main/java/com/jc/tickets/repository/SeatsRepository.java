@@ -8,5 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.jc.tickets.entity.Seats;
 
 public interface SeatsRepository extends JpaRepository<Seats, Long> {
-    Optional<List<Seats>> findByEventId(Long eventId);
+    Optional<Seats> findBySeaUuid(String uuid);
+    List<Seats> findByEveUuid(String eveUuid);
+    Optional<Seats> findBySeatNumberAndEveUuid(String seatNumber, String eveUuid);
 }
