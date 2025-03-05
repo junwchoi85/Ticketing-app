@@ -1,0 +1,51 @@
+server:
+  port: 8070
+spring:
+  application:
+    name: aggregator-server
+# Eureka
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: "http://localhost:8761/eureka/"
+app:
+  base-url: "http://localhost:8070"
+
+  
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+# Logging
+logging:
+  pattern:
+    console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"
+  
+info:
+  app:
+    name: "aggregator-server"
+    description: "Aggregator Server"
+    version: "0.0.1"
