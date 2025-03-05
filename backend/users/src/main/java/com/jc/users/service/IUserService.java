@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jc.users.dto.CustomerDto;
 
-public interface IUsersService {
+public interface IUserService {
     public CustomerDto signUpCustomer(CustomerDto customerDto);
     public CustomerDto fetchCustomerById(Long id);
     public CustomerDto fetchCustomerByUuid(String uuid);

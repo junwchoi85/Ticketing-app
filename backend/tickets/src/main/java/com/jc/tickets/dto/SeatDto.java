@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class SeatsDto {
+public class SeatDto {
     @NotEmpty(message = "UUID cannot be empty", groups = { ReadValidation.class, UpdateValidation.class })
     private String seaUuid;
     @NotEmpty(message = "UUID cannot be empty")

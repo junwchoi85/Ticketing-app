@@ -17,31 +17,31 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "seat")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tickets {
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "tic_uuid", unique = true, nullable = false)
-    private String ticUuid;
-
-    private String eveUuid;
+    @Column(name = "sea_uuid", unique = true, nullable = false)
     private String seaUuid;
-    private String cusUuid;
-    private LocalDateTime purchaseDate;
-    private String paymentStatus;
+    private String eveUuid;
+    private String seatNumber;
+    private String rowNumber;
+    private String status;
+    private Long reservedBy;
+    private LocalDateTime reservedUntil;
 
     @PrePersist
     protected void onCreate() {
-        if (ticUuid == null) {
-            ticUuid = UUID.randomUUID().toString();
+        if (seaUuid == null) {
+            seaUuid = UUID.randomUUID().toString();
         }
     }
 }

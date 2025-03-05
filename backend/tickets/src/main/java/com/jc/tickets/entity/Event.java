@@ -1,6 +1,5 @@
 package com.jc.tickets.entity;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -17,31 +16,27 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "seats")
+@Table(name = "event")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Seats {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "sea_uuid", unique = true, nullable = false)
-    private String seaUuid;
+    @Column(name = "eve_uuid", unique = true, nullable = false)
     private String eveUuid;
-    private String seatNumber;
-    private String rowNumber;
-    private String status;
-    private Long reservedBy;
-    private LocalDateTime reservedUntil;
+    private String title;
+    private String description;
+    private String venue;
 
     @PrePersist
     protected void onCreate() {
-        if (seaUuid == null) {
-            seaUuid = UUID.randomUUID().toString();
+        if (eveUuid == null) {
+            eveUuid = UUID.randomUUID().toString();
         }
     }
 }

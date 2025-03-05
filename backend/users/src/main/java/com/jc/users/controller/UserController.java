@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jc.common.dto.ResponseDto;
 import com.jc.common.validation.ValidationGroups.CreateValidation;
 import com.jc.common.validation.ValidationGroups.UpdateValidation;
-import com.jc.users.constants.UsersConstants;
+import com.jc.users.constants.UserConstants;
 import com.jc.users.dto.CustomerDto;
-import com.jc.users.service.IUsersService;
+import com.jc.users.service.IUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -26,66 +26,66 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 @AllArgsConstructor
 @Validated
-public class UsersController {
-    private IUsersService usersService;
+public class UserController {
+    private IUserService userService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto<CustomerDto>> signupCustomer(
             @Validated({ CreateValidation.class }) @RequestBody CustomerDto customerDto) {
-        CustomerDto savedUsers = usersService.signUpCustomer(customerDto);
-        if (savedUsers == null) {
+        CustomerDto customer = userService.signUpCustomer(customerDto);
+        if (customer == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(UsersConstants.STATUS_417, UsersConstants.MESSAGE_417_CREATE, null));
+                    .body(new ResponseDto<>(UserConstants.STATUS_417, UserConstants.MESSAGE_417_CREATE, null));
         }
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ResponseDto<CustomerDto>(UsersConstants.STATUS_201, UsersConstants.MESSAGE_201_CREATE,
-                        savedUsers));
+                .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_201, UserConstants.MESSAGE_201_CREATE,
+                        customer));
     }
 
     @GetMapping("/get")
     public ResponseEntity<ResponseDto<CustomerDto>> getUser(@RequestParam String userEmail) {
-        CustomerDto user = usersService.fetchCustomerByEmail(userEmail);
+        CustomerDto user = userService.fetchCustomerByEmail(userEmail);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(UsersConstants.STATUS_417, UsersConstants.MESSAGE_417_GET, null));
+                    .body(new ResponseDto<>(UserConstants.STATUS_417, UserConstants.MESSAGE_417_GET, null));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<CustomerDto>(UsersConstants.STATUS_200, UsersConstants.MESSAGE_200_GET, user));
+                .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_200, UserConstants.MESSAGE_200_GET, user));
     }
 
     @GetMapping("/getByUuid")
     public ResponseEntity<ResponseDto<CustomerDto>> getUserByUuid(@RequestParam("uuid") String uuid) {
-        CustomerDto user = usersService.fetchCustomerByUuid(uuid);
+        CustomerDto user = userService.fetchCustomerByUuid(uuid);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(UsersConstants.STATUS_417, UsersConstants.MESSAGE_417_GET, null));
+                    .body(new ResponseDto<>(UserConstants.STATUS_417, UserConstants.MESSAGE_417_GET, null));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<CustomerDto>(UsersConstants.STATUS_200, UsersConstants.MESSAGE_200_GET, user));
+                .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_200, UserConstants.MESSAGE_200_GET, user));
     }
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDto<CustomerDto>> updateUser(
             @Validated({ UpdateValidation.class }) @RequestBody CustomerDto customerDto) {
-        boolean isUpdated = usersService.editCustomerDetails(customerDto);
+        boolean isUpdated = userService.editCustomerDetails(customerDto);
         if (!isUpdated) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(UsersConstants.STATUS_417, UsersConstants.MESSAGE_417_UPDATE, null));
+                    .body(new ResponseDto<>(UserConstants.STATUS_417, UserConstants.MESSAGE_417_UPDATE, null));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<CustomerDto>(UsersConstants.STATUS_200, UsersConstants.MESSAGE_200_UPDATE, null));
+                .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_200, UserConstants.MESSAGE_200_UPDATE, null));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto<CustomerDto>> deleteUser(
             @Validated({ UpdateValidation.class }) @RequestBody CustomerDto customerDto) {
-        boolean isDeleted = usersService.deactivateCustomer(customerDto);
+        boolean isDeleted = userService.deactivateCustomer(customerDto);
         if (!isDeleted) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(UsersConstants.STATUS_417, UsersConstants.MESSAGE_417_DELETE, null));
+                    .body(new ResponseDto<>(UserConstants.STATUS_417, UserConstants.MESSAGE_417_DELETE, null));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<CustomerDto>(UsersConstants.STATUS_200, UsersConstants.MESSAGE_200, null));
+                .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_200, UserConstants.MESSAGE_200, null));
     }
 
     @GetMapping("/ping")

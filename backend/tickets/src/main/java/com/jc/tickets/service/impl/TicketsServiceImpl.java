@@ -6,81 +6,81 @@ import org.springframework.stereotype.Service;
 
 import com.jc.common.exception.ResourceNotFoundException;
 import com.jc.tickets.constants.TicketsConstants;
-import com.jc.tickets.dto.EventsDto;
-import com.jc.tickets.dto.SeatsDto;
-import com.jc.tickets.dto.TicketsDto;
-import com.jc.tickets.entity.Events;
-import com.jc.tickets.entity.Seats;
-import com.jc.tickets.entity.Tickets;
-import com.jc.tickets.mapper.EventsMapper;
-import com.jc.tickets.mapper.SeatsMapper;
-import com.jc.tickets.mapper.TicketsMapper;
-import com.jc.tickets.repository.EventsRepository;
-import com.jc.tickets.repository.SeatsRepository;
-import com.jc.tickets.repository.TicketsRepository;
-import com.jc.tickets.service.ITicketsService;
+import com.jc.tickets.dto.EventDto;
+import com.jc.tickets.dto.SeatDto;
+import com.jc.tickets.dto.TicketDto;
+import com.jc.tickets.entity.Event;
+import com.jc.tickets.entity.Seat;
+import com.jc.tickets.entity.Ticket;
+import com.jc.tickets.mapper.EventMapper;
+import com.jc.tickets.mapper.SeatMapper;
+import com.jc.tickets.mapper.TicketMapper;
+import com.jc.tickets.repository.EventRepository;
+import com.jc.tickets.repository.SeatRepository;
+import com.jc.tickets.repository.TicketRepository;
+import com.jc.tickets.service.ITicketService;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class TicketsServiceImpl implements ITicketsService {
-    private final TicketsRepository ticketsRepository;
-    private final SeatsRepository seatsRepository;
-    private final EventsRepository eventsRepository;
+public class TicketsServiceImpl implements ITicketService {
+    private final TicketRepository ticketsRepository;
+    private final SeatRepository seatsRepository;
+    private final EventRepository eventsRepository;
 
     @Override
-    public TicketsDto bookTicket(TicketsDto ticketsDto) {
-        Tickets tickets = TicketsMapper.convertToEntity(ticketsDto);
-        Tickets savedTickets = ticketsRepository.save(tickets);
-        return TicketsMapper.convertToDto(savedTickets);
+    public TicketDto bookTicket(TicketDto ticketDto) {
+        Ticket ticket = TicketMapper.convertToEntity(ticketDto);
+        Ticket savedEntity = ticketsRepository.save(ticket);
+        return TicketMapper.convertToDto(savedEntity);
     }
 
     @Override
-    public TicketsDto getTicketByUser(String cusUuid) {
-        Tickets tickets = ticketsRepository.findByCusUuid(cusUuid)
+    public TicketDto getTicketByUser(String cusUuid) {
+        Ticket ticket = ticketsRepository.findByCusUuid(cusUuid)
                 .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
                         TicketsConstants.FIELD_CUS_UUID, cusUuid));
-        return TicketsMapper.convertToDto(tickets);
+        return TicketMapper.convertToDto(ticket);
     }
 
     @Override
-    public boolean updateTicket(TicketsDto ticketsDto) {
-        Tickets tickets = ticketsRepository.findByTicUuid(ticketsDto.getTicUuid())
+    public boolean updateTicket(TicketDto ticketDto) {
+        Ticket ticket = ticketsRepository.findByTicUuid(ticketDto.getTicUuid())
                 .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
-                        TicketsConstants.FIELD_TIC_UUID, ticketsDto.getTicUuid()));
-        Tickets updatedTickets = TicketsMapper.mapToEntity(ticketsDto, tickets);
-        ticketsRepository.save(updatedTickets);
+                        TicketsConstants.FIELD_TIC_UUID, ticketDto.getTicUuid()));
+        Ticket updatedEntity = TicketMapper.mapToEntity(ticketDto, ticket);
+        ticketsRepository.save(updatedEntity);
         return true;
     }
 
     @Override
-    public boolean deleteTicket(TicketsDto ticketsDto) {
+    public boolean deleteTicket(TicketDto ticketDto) {
         // TODO : Implement soft delete
-        Tickets tickets = ticketsRepository.findByTicUuid(ticketsDto.getTicUuid())
+        Ticket ticket = ticketsRepository.findByTicUuid(ticketDto.getTicUuid())
                 .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
-                        TicketsConstants.FIELD_TIC_UUID, ticketsDto.getTicUuid()));
-        ticketsRepository.delete(tickets);
+                        TicketsConstants.FIELD_TIC_UUID, ticketDto.getTicUuid()));
+        ticketsRepository.delete(ticket);
         return true;
     }
 
     @Override
-    public List<SeatsDto> getSeats(String eveUuid) {
-        List<Seats> seats = seatsRepository.findByEveUuid(eveUuid);
-        return SeatsMapper.convertToSeatsDtoList(seats);
+    public List<SeatDto> getSeats(String eveUuid) {
+        List<Seat> seats = seatsRepository.findByEveUuid(eveUuid);
+        return SeatMapper.convertToseatDtoList(seats);
     }
 
     @Override
-    public EventsDto getEventByTitle(String title) {
-        Events events = eventsRepository.findByTitle(title)
+    public EventDto getEventByTitle(String title) {
+        Event events = eventsRepository.findByTitle(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "title", title));
-        return EventsMapper.convertToDto(events);
+        return EventMapper.convertToDto(events);
     }
 
     @Override
-    public List<EventsDto> getAllEvents() {
-        List<Events> events = eventsRepository.findAll();
-        return EventsMapper.convertToEventsDtoList(events);
+    public List<EventDto> getAllEvents() {
+        List<Event> events = eventsRepository.findAll();
+        return EventMapper.convertToEventDtoList(events);
     }
 
 }

@@ -1,5 +1,5 @@
 -- schema.sql
-CREATE TABLE customers (
+CREATE TABLE customer (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     uuid VARCHAR(36) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,

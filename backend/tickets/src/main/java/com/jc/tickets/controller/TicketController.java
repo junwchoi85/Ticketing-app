@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jc.common.dto.ResponseDto;
 import com.jc.tickets.constants.TicketsConstants;
-import com.jc.tickets.dto.TicketsDto;
-import com.jc.tickets.service.ITicketsService;
+import com.jc.tickets.dto.TicketDto;
+import com.jc.tickets.service.ITicketService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(path = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
 @AllArgsConstructor
 @Validated
-public class TicketsController {
-    private ITicketsService ticketsService;
+public class TicketController {
+    private ITicketService ticketService;
 
     @PostMapping("/book-ticket")
-    public ResponseEntity<ResponseDto<TicketsDto>> bookTicket(@Valid @RequestBody TicketsDto entity) {
-        TicketsDto savedEntity = ticketsService.bookTicket(entity);
+    public ResponseEntity<ResponseDto<TicketDto>> bookTicket(@Valid @RequestBody TicketDto entity) {
+        TicketDto savedEntity = ticketService.bookTicket(entity);
         if (savedEntity == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.FAILED_TO_BOOK_TICKET, null));
@@ -40,8 +40,8 @@ public class TicketsController {
     }
 
     @GetMapping("/get-ticket")
-    public ResponseEntity<ResponseDto<TicketsDto>> getTicket(@RequestParam("uuid") String uuid) {
-        TicketsDto entity = ticketsService.getTicketByUser(uuid);
+    public ResponseEntity<ResponseDto<TicketDto>> getTicket(@RequestParam("uuid") String uuid) {
+        TicketDto entity = ticketService.getTicketByUser(uuid);
         if (entity == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.FAILED_TO_BOOK_TICKET, null));
