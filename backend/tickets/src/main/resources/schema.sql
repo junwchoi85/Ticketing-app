@@ -1,5 +1,5 @@
--- Table: events
-CREATE TABLE events (
+-- Table: event
+CREATE TABLE event (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     eve_uuid VARCHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -12,8 +12,8 @@ CREATE TABLE events (
     UNIQUE (eve_uuid) -- Added unique constraint
 );
 
--- Table: seats
-CREATE TABLE seats (
+-- Table: seat
+CREATE TABLE seat (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sea_uuid VARCHAR(36) NOT NULL,
     eve_uuid VARCHAR(36) NOT NULL,
@@ -27,11 +27,11 @@ CREATE TABLE seats (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by VARCHAR(255) DEFAULT NULL,
     UNIQUE (sea_uuid), -- Added unique constraint
-    FOREIGN KEY (eve_uuid) REFERENCES events(eve_uuid)
+    FOREIGN KEY (eve_uuid) REFERENCES event(eve_uuid)
 );
 
--- Table: tickets
-CREATE TABLE tickets (
+-- Table: ticket
+CREATE TABLE ticket (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     tic_uuid VARCHAR(36) NOT NULL,
     eve_uuid VARCHAR(36) NOT NULL,
@@ -44,6 +44,6 @@ CREATE TABLE tickets (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by VARCHAR(255) DEFAULT NULL,
     UNIQUE (tic_uuid), -- Added unique constraint
-    FOREIGN KEY (eve_uuid) REFERENCES events(eve_uuid),
-    FOREIGN KEY (sea_uuid) REFERENCES seats(sea_uuid)
+    FOREIGN KEY (eve_uuid) REFERENCES event(eve_uuid),
+    FOREIGN KEY (sea_uuid) REFERENCES seat(sea_uuid)
 );

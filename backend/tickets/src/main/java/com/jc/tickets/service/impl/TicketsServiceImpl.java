@@ -67,7 +67,7 @@ public class TicketsServiceImpl implements ITicketService {
     @Override
     public List<SeatDto> getSeats(String eveUuid) {
         List<Seat> seats = seatsRepository.findByEveUuid(eveUuid);
-        return SeatMapper.convertToseatDtoList(seats);
+        return SeatMapper.convertToSeatDtoList(seats);
     }
 
     @Override
