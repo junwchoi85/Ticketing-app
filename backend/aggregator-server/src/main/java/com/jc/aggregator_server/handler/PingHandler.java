@@ -11,6 +11,6 @@ import reactor.core.publisher.Mono;
 public class PingHandler {
 
     public Mono<ServerResponse> ping(ServerRequest request) {
-        return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).bodyValue("pong");
+        return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).bodyValue("pong from aggregator");
     }
 }

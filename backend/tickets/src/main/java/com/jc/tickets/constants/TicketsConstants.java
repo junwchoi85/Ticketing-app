@@ -9,6 +9,7 @@ public class TicketsConstants implements CommonConstants {
     public static final String STATUS_500 = "500";
     public static final String FAILED_TO_BOOK_TICKET = "Failed to book ticket";
     public static final String TICKET_BOOKED_SUCCESSFULLY = "Ticket booked successfully";
+    public static final String TICKET_NOT_FOUND = "Ticket not found";
 
     public static final String RESOURCE_TICKET = "Ticket";
 

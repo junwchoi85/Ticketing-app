@@ -37,11 +37,11 @@ public class TicketsServiceImpl implements ITicketService {
     }
 
     @Override
-    public TicketDto getTicketByUser(String cusUuid) {
-        Ticket ticket = ticketsRepository.findByCusUuid(cusUuid)
+    public List<TicketDto> getTicketByUser(String cusUuid) {
+        List<Ticket> ticketList = ticketsRepository.findByCusUuid(cusUuid)
                 .orElseThrow(() -> new ResourceNotFoundException(TicketsConstants.RESOURCE_TICKET,
                         TicketsConstants.FIELD_CUS_UUID, cusUuid));
-        return TicketMapper.convertToDto(ticket);
+        return TicketMapper.convertToDto(ticketList);
     }
 
     @Override

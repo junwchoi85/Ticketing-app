@@ -1,5 +1,7 @@
 package com.jc.users.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Validated
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private IUserService userService;
+    
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto<CustomerDto>> signupCustomer(
@@ -43,7 +47,8 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseDto<CustomerDto>> getUser(@RequestParam String userEmail) {
+    public ResponseEntity<ResponseDto<CustomerDto>> getUser(@RequestParam("userEmail") String userEmail) {
+        logger.debug("Fetching user details by email: {}", userEmail);
         CustomerDto user = userService.fetchCustomerByEmail(userEmail);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -55,6 +60,7 @@ public class UserController {
 
     @GetMapping("/getByUuid")
     public ResponseEntity<ResponseDto<CustomerDto>> getUserByUuid(@RequestParam("uuid") String uuid) {
+        logger.debug("Fetching user by uuid: {}", uuid);
         CustomerDto user = userService.fetchCustomerByUuid(uuid);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -88,8 +94,8 @@ public class UserController {
                 .body(new ResponseDto<CustomerDto>(UserConstants.STATUS_200, UserConstants.MESSAGE_200, null));
     }
 
-    @GetMapping("/ping")
+    @GetMapping("/user-service-ping")
     public String ping() {
-        return "pong";
+        return "user service pong";
     }
 }

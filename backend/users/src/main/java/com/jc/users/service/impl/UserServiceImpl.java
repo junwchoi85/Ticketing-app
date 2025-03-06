@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.jc.common.exception.ConflictException;
 import com.jc.common.exception.ResourceNotFoundException;
+import com.jc.common.util.StringUtil;
 import com.jc.users.constants.UserConstants;
 import com.jc.users.dto.CustomerDto;
 import com.jc.users.entity.Customer;
@@ -19,7 +20,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UsersServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService {
     private final CustomerRepository customerRepository;
 
     @Override
@@ -44,6 +45,7 @@ public class UsersServiceImpl implements IUserService {
 
     @Override
     public CustomerDto fetchCustomerByUuid(String uuid) {
+        StringUtil.trim(String.valueOf(uuid));
         Customer users = customerRepository.findByUuid(uuid)
                 .orElseThrow(() -> new ResourceNotFoundException(UserConstants.RESOURCE_CUSTOMER,
                         UserConstants.RESOURCE_UUID, uuid));
@@ -52,7 +54,7 @@ public class UsersServiceImpl implements IUserService {
 
     @Override
     public CustomerDto fetchCustomerByEmail(String email) {
-        Customer users = customerRepository.findByEmail(email)
+        Customer users = customerRepository.findByEmail(StringUtil.trim(email))
                 .orElseThrow(() -> new ResourceNotFoundException(UserConstants.RESOURCE_CUSTOMER,
                         UserConstants.RESOURCE_EMAIL, email));
         return CustomerMapper.convertToDto(users);

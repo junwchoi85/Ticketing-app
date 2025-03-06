@@ -1,4 +1,4 @@
-package com.jc.aggregator_server.config;
+package com.jc.aggregator_server.router;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.jc.aggregator_server.handler.PingHandler;
 
 @Configuration
-class PingRouteConfiguration {
+class PingRouter {
 
     @Bean
     public RouterFunction<ServerResponse> pingRoute(PingHandler pingHandler) {

@@ -1,5 +1,8 @@
 package com.jc.tickets.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.jc.tickets.dto.TicketDto;
 import com.jc.tickets.entity.Ticket;
 
@@ -44,5 +47,13 @@ public class TicketMapper {
         ticket.setPurchaseDate(ticketDto.getPurchaseDate());
         ticket.setPaymentStatus(ticketDto.getPaymentStatus());
         return ticket;
+    }
+
+    public static List<TicketDto> convertToDto(List<Ticket> ticketList) {
+        return ticketList.stream().map(TicketMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    public static List<Ticket> convertToEntity(List<TicketDto> ticketDtoList) {
+        return ticketDtoList.stream().map(TicketMapper::convertToEntity).collect(Collectors.toList());
     }
 }

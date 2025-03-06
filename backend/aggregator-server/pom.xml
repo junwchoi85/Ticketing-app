@@ -15,11 +15,11 @@
 	<description>Aggregator Server</description>
 
 	<dependencies>
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.jc</groupId>
 			<artifactId>common</artifactId>
 			<version>${common-lib.version}</version>
-		</dependency> -->
+		</dependency>
 		 <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>

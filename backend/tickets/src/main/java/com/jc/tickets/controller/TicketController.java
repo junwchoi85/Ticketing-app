@@ -1,5 +1,7 @@
 package com.jc.tickets.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping(path = "/api", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -40,20 +41,22 @@ public class TicketController {
     }
 
     @GetMapping("/get-ticket")
-    public ResponseEntity<ResponseDto<TicketDto>> getTicket(@RequestParam("uuid") String uuid) {
-        TicketDto entity = ticketService.getTicketByUser(uuid);
-        if (entity == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.FAILED_TO_BOOK_TICKET, null));
+    public ResponseEntity<ResponseDto<List<TicketDto>>> getTicket(@RequestParam("uuid") String uuid) {
+        List<TicketDto> ticketList = ticketService.getTicketByUser(uuid);
+
+        if (ticketList == null || ticketList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseDto<>(TicketsConstants.STATUS_500, TicketsConstants.TICKET_NOT_FOUND, null));
         }
+
         return ResponseEntity.status(200)
-                .body(new ResponseDto<>(TicketsConstants.STATUS_200, TicketsConstants.TICKET_BOOKED_SUCCESSFULLY, entity));
+                .body(new ResponseDto<List<TicketDto>>(TicketsConstants.STATUS_200,
+                        TicketsConstants.TICKET_BOOKED_SUCCESSFULLY, ticketList));
     }
 
-    @GetMapping("/ping")
+    @GetMapping("/ticket-service-ping")
     public String ping() {
-        return "pong";
+        return "ticket service pong";
     }
-    
 
 }

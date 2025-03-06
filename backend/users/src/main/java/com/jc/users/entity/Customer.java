@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "customer")
 @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class Customer extends BaseEntity{
     @Id
@@ -43,5 +44,7 @@ public class Customer extends BaseEntity{
         if (uuid == null) {
             uuid = UUID.randomUUID().toString();
         }
+        this.email = this.email.trim();
+        this.fullName = this.fullName.trim();
     }
 }

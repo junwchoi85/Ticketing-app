@@ -8,7 +8,7 @@ import com.jc.tickets.dto.TicketDto;
 
 public interface ITicketService {
     public TicketDto bookTicket(TicketDto ticketDto);
-    public TicketDto getTicketByUser(String cusUuid);
+    public List<TicketDto> getTicketByUser(String cusUuid);
     public boolean updateTicket(TicketDto ticketDto);
     public boolean deleteTicket(TicketDto ticketDto);
 
