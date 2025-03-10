@@ -23,6 +23,20 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  cloud:
+    function:
+      destination: messageConsumer
+    stream:
+      bindings:
+        userEvents-out-0: # Producer Binding.
+          destination: users.event # Publishes messages to the Kafka topic
+        messageConsumer-in-0:  # Consumer Binding.
+          destination: messages.response # Consumes messages from the Kafka topic
+          group: ${spring.application.name}
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
 # Eureka
 eureka:
   instance:

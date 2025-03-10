@@ -14,4 +14,6 @@ public class UserConstants implements CommonConstants {
     public static final String RESOURCE_UUID = "uuid";
     public static final String RESOURCE_ID = "id";
     public static final String RESOURCE_PASSWORD = "password";
+
+    public static final String CUSTOMER_TOPIC = "userEvents-out-0";
 }

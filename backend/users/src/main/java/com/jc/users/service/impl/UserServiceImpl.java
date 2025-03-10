@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import com.jc.common.exception.ConflictException;
@@ -11,6 +14,7 @@ import com.jc.common.exception.ResourceNotFoundException;
 import com.jc.common.util.StringUtil;
 import com.jc.users.constants.UserConstants;
 import com.jc.users.dto.CustomerDto;
+import com.jc.users.dto.CustomerMsgDto;
 import com.jc.users.entity.Customer;
 import com.jc.users.mapper.CustomerMapper;
 import com.jc.users.repository.CustomerRepository;
@@ -21,7 +25,11 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements IUserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final CustomerRepository customerRepository;
+    private final StreamBridge streamBridge;
 
     @Override
     public CustomerDto signUpCustomer(CustomerDto customersDto) {
@@ -32,6 +40,7 @@ public class UserServiceImpl implements IUserService {
                     customersEntities.getEmail());
         }
         Customer savedUsers = customerRepository.save(customersEntities);
+        sendMessage(savedUsers);
         return CustomerMapper.convertToDto(savedUsers);
     }
 
@@ -83,5 +92,12 @@ public class UserServiceImpl implements IUserService {
     public List<CustomerDto> listAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream().map(CustomerMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    private void sendMessage(Customer customer) {
+        var customerMsgDto = new CustomerMsgDto(customer.getUuid(), customer.getEmail());
+        logger.info("\n\nSending message to Kafka topic: {}", UserConstants.CUSTOMER_TOPIC);
+        var result = streamBridge.send(UserConstants.CUSTOMER_TOPIC, customerMsgDto);
+        logger.info("\n\nMessage sent to Kafka topic: {}", result);
     }
 }

@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +44,5 @@ public class Customer extends BaseEntity{
             uuid = UUID.randomUUID().toString();
         }
         this.email = this.email.trim();
-        this.fullName = this.fullName.trim();
     }
 }
